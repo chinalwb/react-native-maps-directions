@@ -9,6 +9,129 @@ This component is built based on [react-native-maps-directions](https://github.c
 
 BTW, these changes addressed the issue mentioned at [https://github.com/bramus/react-native-maps-directions/issues/84](https://github.com/bramus/react-native-maps-directions/issues/84).
 
+## Installation
+
+Install `react-native-maps-directions` as a dependency using either
+
+- [Node's `npm`](https://nodejs.org/en/download/)
+
+  ```
+  npm install react-native-maps-directions-via-server
+  ```
+
+- [Yarn](https://yarnpkg.com/en/docs/install)
+
+  ```
+  yarn add react-native-maps-directions-via-server
+  ```
+
+## Basic Usage
+
+Since the map directions feature in this library requires server-side implementation, before wiring it up in React Native, you'll must have server side ready. And the implementation at server-side is as simple as forwarding the request to google's server by appending the apiKey param to the request.
+
+Server side:
+Have a RESTful endpoint for forwarding the request to Google.
+Here is a basic setup of endpoint at local `http://10.2.97.131:3000/maps/api/directions/json`:
+
+```js
+const GOOGLE_API_KEY = "YOUR_GOOGLE_API_KEY";
+
+const http = require("http");
+const https = require("https");
+const url = require("url");
+const querystring = require("querystring"); // for handling query params
+
+const hostname = "0.0.0.0";
+const port = 3000;
+
+const server = http.createServer((req, res) => {
+  const parsedUrl = url.parse(req.url, true);
+  const pathname = parsedUrl.pathname;
+
+  if (req.method === "GET" && pathname === "/maps/api/directions/json") {
+    const originalQuery = parsedUrl.query;
+
+    // ✅ Inject API key (override if client included it)
+    const queryWithKey = {
+      ...originalQuery,
+      key: GOOGLE_API_KEY,
+    };
+
+    const queryString = querystring.stringify(queryWithKey);
+    const googleUrl = `https://maps.googleapis.com/maps/api/directions/json?${queryString}`;
+
+    let responded = false;
+
+    const proxyReq = https.get(googleUrl, (googleRes) => {
+      let data = "";
+
+      googleRes.on("data", (chunk) => {
+        data += chunk;
+      });
+
+      googleRes.on("end", () => {
+        if (!responded) {
+          responded = true;
+          res.statusCode = googleRes.statusCode;
+          res.setHeader("Content-Type", "application/json");
+          res.end(data);
+        }
+      });
+    });
+
+    proxyReq.on("error", (err) => {
+      if (!responded) {
+        responded = true;
+        res.statusCode = 500;
+        res.setHeader("Content-Type", "application/json");
+        res.end(
+          JSON.stringify({
+            error: "Failed to fetch from Google Maps API",
+            details: err.message,
+          })
+        );
+      } else {
+        console.error("Unhandled proxy error after response:", err.message);
+      }
+    });
+  } else {
+    res.statusCode = 404;
+    res.setHeader("Content-Type", "application/json");
+    res.end(JSON.stringify({ error: "Not Found" }));
+  }
+});
+
+server.listen(port, hostname, () => {
+  console.log(`Proxy server running at http://${hostname}:${port}/`);
+});
+```
+
+Run the command to start it up:
+
+```shell
+node server.js
+```
+
+In React Native:
+
+```js
+import MapViewDirections from 'react-native-maps-directions-via-server';
+
+const origin = {latitude: 37.3318456, longitude: -122.0296002};
+const destination = {latitude: 37.771707, longitude: -122.4053769};
+const directionsServiceBaseUrl = 'http://10.2.97.131:3000/maps/api/directions/json';
+
+<MapView initialRegion={…}>
+  <MapViewDirections
+    origin={origin}
+    destination={destination}
+    directionsServiceBaseUrl={directionsServiceBaseUrl}
+  />
+</MapView>
+```
+
+Then you're good to go.
+
 ### Original documentation from react-native-maps-directions as follows:
 
 [![npm Version](https://img.shields.io/npm/v/react-native-maps-directions.svg?style=flat)](https://www.npmjs.com/package/react-native-maps-directions)

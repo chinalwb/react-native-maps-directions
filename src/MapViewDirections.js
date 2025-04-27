@@ -105,6 +105,11 @@ class MapViewDirections extends Component {
       channel,
     } = props;
 
+    if (!directionsServiceBaseUrl || directionsServiceBaseUrl === "") {
+      console.warn(`MapViewDirections Error: Missing directionsServiceBaseUrl`); // eslint-disable-line no-console
+      return;
+    }
+
     if (!initialOrigin || !initialDestination) {
       return;
     }
