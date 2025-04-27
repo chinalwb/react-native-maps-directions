@@ -3,10 +3,10 @@
 [![npm Version](https://img.shields.io/npm/v/react-native-maps-directions-via-server.svg?style=flat)](https://www.npmjs.com/package/react-native-maps-directions-via-server)
 [![npm Downloads](https://img.shields.io/npm/dm/react-native-maps-directions-via-server.svg)](https://www.npmtrends.com/react-native-maps-directions-via-server)
 
-This component is built based on [react-native-maps-directions](https://github.com/bramus/react-native-maps-directions), with changes at below:
+This component is built based on [react-native-maps-directions](https://github.com/bramus/react-native-maps-directions), with changes below:
 
-1. Removed `apikey` as the required param, this assures the apikey won't be compromised from app side.
-2. Marked `directionsServiceBaseUrl` as the required param, as the request for fetching directions will go to the url specified with this param.
+1. By removing apikey as a required parameter, we mitigate the risk of the `apikey` being compromised on the app side.
+2. `directionsServiceBaseUrl` has been marked as a required parameter, as direction requests will be sent to the URL specified by it.
 
 BTW, these changes addressed the issue mentioned at [https://github.com/bramus/react-native-maps-directions/issues/84](https://github.com/bramus/react-native-maps-directions/issues/84).
 
