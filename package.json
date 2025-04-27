@@ -1,6 +1,6 @@
 {
   "name": "react-native-maps-directions-via-server",
-  "version": "1.0.3",
+  "version": "1.0.5",
   "description": "use react-native-maps-directions package via server driven data, avoid compromising of google api key",
   "main": "index.js",
   "scripts": {

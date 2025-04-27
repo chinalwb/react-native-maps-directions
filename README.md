@@ -1,6 +1,7 @@
 # `react-native-maps-directions-via-server`
 
 [![npm Version](https://img.shields.io/npm/v/react-native-maps-directions-via-server.svg?style=flat)](https://www.npmjs.com/package/react-native-maps-directions-via-server)
+[![npm Downloads](https://img.shields.io/npm/dm/react-native-maps-directions-via-server.svg)](https://www.npmtrends.com/react-native-maps-directions-via-server)
 
 This component is built based on [react-native-maps-directions](https://github.com/bramus/react-native-maps-directions), with changes at below:
 

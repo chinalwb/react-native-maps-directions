@@ -180,9 +180,8 @@ declare module "react-native-maps-directions-via-server" {
     splitWaypoints?: boolean;
     /**
      * Base URL of the Directions Service (API) you are using.
-     * By default the Google Directions API is used
-     * ("https://maps.googleapis.com/maps/api/directions/json").
-     * Usually you won't need to change this.
+     * You need to set up the endpoint at your server as a proxy,
+     * for forwarding the request to google's server.
      */
     directionsServiceBaseUrl?: string;
     /**
