@@ -1,5 +1,7 @@
 # `react-native-maps-directions-via-server`
 
+[![npm Version](https://img.shields.io/npm/v/react-native-maps-directions-via-server.svg?style=flat)](https://www.npmjs.com/package/react-native-maps-directions-via-server)
+
 This component is built based on [react-native-maps-directions](https://github.com/bramus/react-native-maps-directions), with changes at below:
 
 1. Removed `apikey` as the required param, this assures the apikey won't be compromised from app side.
