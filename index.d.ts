@@ -185,6 +185,11 @@ declare module "react-native-maps-directions-via-server" {
      */
     directionsServiceBaseUrl?: string;
     /**
+     * The headers for the request to the Directions Service,
+     * expects to be used along with directionsServiceBaseUrl.
+     */
+    headers?: any;
+    /**
      * If you are using strings for origin or destination,
      * sometimes you will get an incorrect route because
      * Google Maps API needs the region where this places belong to.
