@@ -190,6 +190,12 @@ declare module "react-native-maps-directions-via-server" {
      */
     headers?: any;
     /**
+     * This is a function for extracting the map directions data from the response.
+     * @param data the original data from the Directions Service
+     * @returns the extracted map directions data
+     */
+    dataExtractor?: (data: any) => object;
+    /**
      * If you are using strings for origin or destination,
      * sometimes you will get an incorrect route because
      * Google Maps API needs the region where this places belong to.

@@ -100,6 +100,7 @@ class MapViewDirections extends Component {
       splitWaypoints,
       directionsServiceBaseUrl,
       headers = {},
+      dataExtractor = (json) => json,
       region,
       precision = "low",
       timePrecision = "none",
@@ -206,6 +207,7 @@ class MapViewDirections extends Component {
         return this.fetchRoute(
           directionsServiceBaseUrl,
           headers,
+          dataExtractor,
           origin,
           waypoints,
           destination,
@@ -272,6 +274,7 @@ class MapViewDirections extends Component {
   fetchRoute(
     directionsServiceBaseUrl,
     headers,
+    dataExtractor,
     origin,
     waypoints,
     destination,
@@ -296,6 +299,7 @@ class MapViewDirections extends Component {
 
     return fetch(url, { headers })
       .then((response) => response.json())
+      .then((json) => dataExtractor(json))
       .then((json) => {
         if (json.status !== "OK") {
           const errorMessage =
@@ -398,6 +402,7 @@ MapViewDirections.propTypes = {
   splitWaypoints: PropTypes.bool,
   directionsServiceBaseUrl: PropTypes.string.isRequired,
   headers: PropTypes.object,
+  dataExtractor: PropTypes.func,
   region: PropTypes.string,
   precision: PropTypes.oneOf(["high", "low"]),
   timePrecision: PropTypes.oneOf(["now", "none"]),
