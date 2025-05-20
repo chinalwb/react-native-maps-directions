@@ -8,6 +8,7 @@ This component is built based on [react-native-maps-directions](https://github.c
 1. By removing apikey as a required parameter, we mitigate the risk of the `apikey` being compromised on the app side.
 2. `directionsServiceBaseUrl` has been marked as a required parameter, as direction requests will be sent to the URL specified by it.
 3. `headers` has been added as an optional parameter, works together with `directionsServiceBaseUrl`, for authenticating if necessary.
+4. `dataExtractor` is a new added function for extracting the directions data from the raw response of your custom server.
 
 BTW, these changes addressed the issue mentioned at [https://github.com/bramus/react-native-maps-directions/issues/84](https://github.com/bramus/react-native-maps-directions/issues/84).
 
